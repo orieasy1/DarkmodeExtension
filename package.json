@@ -1,0 +1,28 @@
+{
+  "name": "darkmodeextension",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orieasy1/DarkmodeExtension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orieasy1/DarkmodeExtension/issues"
+  },
+  "homepage": "https://github.com/orieasy1/DarkmodeExtension#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/chrome": "^0.0.326",
+    "copy-webpack-plugin": "^13.0.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  }
+}

@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("toggle-darkmode");t&&t.addEventListener("click",async()=>{try{const[t]=await chrome.tabs.query({active:!0,currentWindow:!0});chrome.scripting.executeScript({target:{tabId:t.id},files:["content.js"]})}catch(t){}})});
