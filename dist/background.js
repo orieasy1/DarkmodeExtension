@@ -1,1 +1,0 @@
-(()=>{"use strict";chrome.runtime.onInstalled.addListener(()=>{console.log("My DarkReader Clone installed!")})})();

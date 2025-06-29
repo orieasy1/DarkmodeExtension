@@ -1,23 +1,35 @@
-<!-- 아이콘 클릭 시 나타나는 팝업 페이지 -->
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <title>IXLAB Darkmode Extension</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        padding: 1em;
-        width: 250px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>IXLAB Darkmode Extension</h1>
-    <p>클릭하면 페이지를 다크 모드로 변경</p>
-    <button id="toggle-darkmode">다크모드 적용</button>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IXLAB Dark Mode</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 10px;
+      width: 200px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Dark Mode</h3>
+  <button id="darkModeToggle">Toggle Dark Mode</button>
 
-    <!-- popup.js 연결 -->
-    <script src="popup.js"></script>
-  </body>
+  <label for="fontWeightSlider">Font Weight</label>
+  <input
+    type="range"
+    id="fontWeightSlider"
+    min="100"
+    max="900"
+    value="400"
+    step="100"
+  />
+
+  <!-- Webpack에서 복사된 번들 파일을 직접 참조 -->
+  <script src="popup.js"></script>
+</body>
 </html>
