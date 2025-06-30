@@ -1,50 +1,30 @@
-import { loadSetting } from './ui/stateManager';
+import { initDarkMode } from './darkmode/index';
+import { applyGlobalDarkStyle, removeGlobalDarkStyle } from './darkmode/styleApplier';
+import { loadSetting, saveSetting } from './ui/stateManager';
 
-// dark-mode.css를 동적으로 삽입
-function applyDarkMode(apply: boolean) {
-  const id = 'ixlab-dark-style';
-  const existingStyle = document.getElementById(id);
+let darkModeEnabled = false;
 
-  if (apply && !existingStyle) {
-    const link = document.createElement('link');
-    link.id = id;
-    link.rel = 'stylesheet';
-    link.href = chrome.runtime.getURL('dark-mode.css');
-    document.head.appendChild(link);
-  } else if (!apply && existingStyle) {
-    existingStyle.remove();
-  }
-}
-
-// 폰트 굵기 적용
-function applyFontWeight(value: number) {
-  document.documentElement.style.setProperty('font-weight', value.toString());
-}
-
-// 메시지 수신 핸들러
+// 메시지 수신
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'TOGGLE_DARK_MODE') {
-    // 현재 상태를 불러와서 반대로 적용
-    loadSetting<boolean>('darkMode').then((prev) => {
-      const newState = !prev;
-      applyDarkMode(newState);
-    });
-  }
+    if (message.type === 'TOGGLE_DARK_MODE') {
+        darkModeEnabled = !darkModeEnabled;
 
-  if (message.type === 'SET_FONT_WEIGHT') {
-    applyFontWeight(message.value);
-  }
+        if (darkModeEnabled) {
+            applyGlobalDarkStyle();
+        } else {
+            removeGlobalDarkStyle();
+        }
+
+        // 설정 저장
+        saveSetting('darkMode', darkModeEnabled);
+    }
 });
 
-// 페이지 로드시 저장된 설정 자동 적용
+// 초기 로딩 시 다크모드 적용
 (async () => {
-  const darkMode = await loadSetting<boolean>('darkMode');
-  const fontWeight = await loadSetting<number>('fontWeight');
-
-  if (darkMode) {
-    applyDarkMode(true);
-  }
-  if (fontWeight) {
-    applyFontWeight(fontWeight);
-  }
+    const saved = await loadSetting<boolean>('darkMode');
+    if (saved) {
+        darkModeEnabled = true;
+        await initDarkMode();  // DOMReady 후 global style 적용 및 mutation observer 등록
+    }
 })();
