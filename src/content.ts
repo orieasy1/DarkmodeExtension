@@ -1,25 +1,30 @@
-const style = document.createElement("style");
-style.textContent = `
-  html, body {
-    background-color: #111 !important;
-    color: #e0e0e0 !important;
-    filter: invert(1) hue-rotate(180deg) !important;
-  }
+import { initDarkMode } from './darkmode/index';
+import { applyGlobalDarkStyle, removeGlobalDarkStyle } from './darkmode/styleApplier';
+import { loadSetting, saveSetting } from './ui/stateManager';
 
-  img, video, picture, iframe, svg {
-    filter: invert(1) hue-rotate(180deg) !important;
-  }
+let darkModeEnabled = false;
 
-  input, textarea, button, select {
-    background-color: #222 !important;
-    color: #e0e0e0 !important;
-    border-color: #555 !important;
-  }
+// 메시지 수신
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'TOGGLE_DARK_MODE') {
+        darkModeEnabled = !darkModeEnabled;
 
-  a {
-    color: #80c0ff !important;
-  }
-`;
+        if (darkModeEnabled) {
+            applyGlobalDarkStyle();
+        } else {
+            removeGlobalDarkStyle();
+        }
 
-document.head.appendChild(style);
+        // 설정 저장
+        saveSetting('darkMode', darkModeEnabled);
+    }
+});
 
+// 초기 로딩 시 다크모드 적용
+(async () => {
+    const saved = await loadSetting<boolean>('darkMode');
+    if (saved) {
+        darkModeEnabled = true;
+        await initDarkMode();  // DOMReady 후 global style 적용 및 mutation observer 등록
+    }
+})();

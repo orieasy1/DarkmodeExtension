@@ -5,7 +5,8 @@ const { EvalDevToolModulePlugin } = require("webpack");
 module.exports = {
   entry: {
     background: "./src/background.ts",
-    content: "./src/content.ts"
+    content: "./src/content.ts",
+    popup: "./src/ui/popupUI.ts"
   },
   output: {
     filename: "[name].js",
