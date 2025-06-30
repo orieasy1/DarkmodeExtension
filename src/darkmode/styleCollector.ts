@@ -8,14 +8,14 @@ export type StyleElement = HTMLStyleElement | HTMLLinkElement;
  * - 조건: <link>는 href가 있어야 함
  */
 export function getStyleElements(root: ParentNode = document): StyleElement[] {
-    const styles: StyleElement[] = Array.from(root.querySelectorAll('style, link[rel="stylesheet"]'))
-        .filter((el): el is StyleElement => {
-            if (el instanceof HTMLStyleElement) return true;
-            if (el instanceof HTMLLinkElement && el.href) return true;
-            return false;
-        });
-
-    return styles;
+    return Array.from(root.querySelectorAll('style, link[rel="stylesheet"]')).filter(
+        (el): el is StyleElement => {
+            return (
+                (el instanceof HTMLStyleElement) ||
+                (el instanceof HTMLLinkElement && !!el.href)
+            );
+        }
+    );
 }
 
 /**

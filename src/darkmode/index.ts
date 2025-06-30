@@ -1,7 +1,7 @@
 // index.ts
-import { onDOMReady } from './domReady';
+import { onDOMReady } from '../domReady';
 import { applyGlobalDarkStyle } from './styleApplier';
-import { startWatchingDOM } from './domWatcher';
+import { startWatchingDOM } from '../domWatcher';
 
 /**
  * Initializes and applies dark mode styles.

@@ -1,6 +1,6 @@
 // domWatcher.ts
 
-import { applyGlobalDarkStyle } from './styleApplier';
+import { applyGlobalDarkStyle } from './darkmode/styleApplier';
 
 let observer: MutationObserver | null = null;
 
