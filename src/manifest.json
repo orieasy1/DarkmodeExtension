@@ -27,6 +27,7 @@
         "tabs",
         "<all_urls>"
     ],
+    "content_security_policy": "script-src 'self'; object-src 'self'; connect-src 'self' ws://localhost:3001",
     "commands": {
         "toggle": {
             "suggested_key": {
