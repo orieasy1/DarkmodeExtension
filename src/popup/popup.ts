@@ -18,42 +18,10 @@
         if (background.extension) {
             popupWindow = new PopupWindow(background.extension);
 
-            // ✅ WebSocket 연결
-            socket = new WebSocket('ws://localhost:3001');
-
-            socket.addEventListener('open', () => {
-                console.log('[popup] WebSocket 연결됨');
-                socket?.send('팝업에서 서버에 연결했습니다!');
-            });
-
-            socket.addEventListener('message', (event) => {
-                console.log('[popup] 서버 응답:', event.data);
-            });
-
-            socket.addEventListener('error', (err) => {
-                console.error('[popup] WebSocket 오류:', err);
-            });
-
         } else {
             const onExtLoaded = (ext: DarkReader.Extension) => {
                 popupWindow = new PopupWindow(ext);
                 background.onExtensionLoaded.removeHandler(onExtLoaded);
-
-                // ✅ WebSocket 연결
-                socket = new WebSocket('ws://localhost:3001');
-
-                socket.addEventListener('open', () => {
-                    console.log('[popup] WebSocket 연결됨');
-                    socket?.send('팝업에서 서버에 연결했습니다!');
-                });
-
-                socket.addEventListener('message', (event) => {
-                    console.log('[popup] 서버 응답:', event.data);
-                });
-
-                socket.addEventListener('error', (err) => {
-                    console.error('[popup] WebSocket 오류:', err);
-                });
 
             };
             background.onExtensionLoaded.addHandler(onExtLoaded);
