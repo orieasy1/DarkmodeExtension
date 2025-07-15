@@ -3,9 +3,6 @@
     // Create window
     export var popupWindow: PopupWindow;
 
-    // WebSocket 연결 변수
-    let socket: WebSocket | null = null;
-
     // Edge fix
     if ((<any>window).chrome && !chrome.extension && (<any>window).browser && (<any>window).browser.extension) {
         chrome.extension = (<any>window).browser.extension;
@@ -17,12 +14,10 @@
 
         if (background.extension) {
             popupWindow = new PopupWindow(background.extension);
-
         } else {
             const onExtLoaded = (ext: DarkReader.Extension) => {
                 popupWindow = new PopupWindow(ext);
                 background.onExtensionLoaded.removeHandler(onExtLoaded);
-
             };
             background.onExtensionLoaded.addHandler(onExtLoaded);
         }
@@ -31,11 +26,6 @@
         window.addEventListener('unload', (e) => {
             popupWindow.scope = null;
             popupWindow.remove();
-
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.close();
-                console.log('[popup] WebSocket 연결 종료');
-            }
         });
     }
     else {
