@@ -17,8 +17,30 @@ wss.on('connection', (ws) => {
     ws.send(`서버 응답: ${message}`);
   });
 
+  // 5초마다 임의의 JSON 데이터 전송
+  const intervalId = setInterval(() => {
+    const data = {
+      type: 'UPDATE_FILTER',
+      payload: {
+        mode: 1, // 다크모드
+        brightness: Math.floor(Math.random() * 100) + 50,
+        contrast: Math.floor(Math.random() * 100) + 50,
+        grayscale: Math.floor(Math.random() * 100), // 0~99
+        sepia: Math.floor(Math.random() * 100),     // 0~99
+        useFont: Math.random() > 0.5,               // true/false 랜덤
+        fontFamily: "Open Sans",                     // 예시 폰트
+        textStroke: Math.floor(Math.random() * 3),   // 0~2
+        invertListed: false,
+        siteList: []
+      }
+    };
+    console.log('서버가 전송하는 JSON:', data);
+    ws.send(JSON.stringify(data));
+  }, 5000);
+
   ws.on('close', () => {
     console.log('❌ 클라이언트 연결 종료');
+    clearInterval(intervalId);
   });
 });
 

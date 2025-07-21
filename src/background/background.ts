@@ -19,8 +19,28 @@
         };
 
         socket.onmessage = (event) => {
-            console.log('[bg] 서버 응답:', event.data);
-            chrome.runtime.sendMessage({ from: 'server', data: event.data });
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'UPDATE_FILTER') {
+                    console.log('[bg] 서버에서 받은 UPDATE_FILTER payload:', data.payload);
+                    // config를 동적으로 갱신 (Object.assign 대신 for...in 사용)
+                    for (var key in data.payload) {
+                        if (data.payload.hasOwnProperty(key) && extension.config.hasOwnProperty(key)) {
+                            extension.config[key] = data.payload[key];
+                        }
+                    }
+                    // 모든 탭에 스타일 적용
+                    chrome.tabs.query({}, (tabs) => {
+                        tabs.forEach(tab => {
+                            if (tab.id && tab.url) {
+                                extension["addStyleToTab"](tab); // protected이지만 강제 접근
+                            }
+                        });
+                    });
+                }
+            } catch (e) {
+                console.log('[bg] 서버 응답:', event.data);
+            }
         };
 
         socket.onclose = () => {
