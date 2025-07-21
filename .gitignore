@@ -1,6 +1,5 @@
 # Ignore compiled JavaScript and CSS
 #-----------------------------------
-*.js
 !Gruntfile.js
 !src/lib/**/*.js
 !src/config/validate.js
@@ -14,9 +13,6 @@ build.zip
 build-firefox/*
 build-firefox.zip
 
-#Node.js modules
-#-----------------------------------
-node_modules/
 
 # IDE and editor configs
 .idea/
